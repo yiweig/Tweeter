@@ -2,7 +2,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.html import strip_tags
-from tweeter.models import Tweeter
+from tweeter_app.models import Tweeter
 
 
 class UserCreateForm(UserCreationForm):
@@ -17,7 +17,7 @@ class UserCreateForm(UserCreationForm):
         form = super(UserCreateForm, self).is_valid()
         for f, error in self.errors.iteritems():
             if f != '__all_':
-                self.fields[f].widget.attrs.update({'class': 'error', 'value': strip_tags(error)})
+                self.fields[f].widget.attrs.update({'class': 'error', 'value': strip_tags(", ".join(error))})
         return form
 
     class Meta:

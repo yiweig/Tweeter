@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block login %}
+    {% with user.username as username %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <div class="panel right">
+        <h1>Create a Tweeter</h1>
+        <p>
+            <form action="/submit" method="post">
+            {% for field in tweeter_form %}{% csrf_token %}
+            {{ field }}
+            {% endfor %}
+            <input type="hidden" value="{{ next_url }}" name="next_url">
+            <input type="submit" value="Tweeter!">
+            </form>
+        </p>
+    </div>
+    <div class="panel left">
+        <h1>Buddies' Tweeters</h1>
+        {% for tweeter in tweeters %}
+        <div class="tweeterWrapper">
+            <a href="/users/{{ tweeter.user.username }}">
+                <img class="avatar" src="{{ tweeter.user.profile.gravatar_url }}">
+                <span class="name">{{ tweeter.user.first_name }}</span>
+            </a>
+            @{{ tweeter.user.username }}
+            <p>
+                {{ tweeter.content }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
